@@ -1,0 +1,50 @@
+{
+  "name": "vivien",
+  "version": "0.0.0",
+  "description": "",
+  "keywords": [],
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "nodemon --exec yarn develop",
+    "develop": "babel-node sandbox",
+    "debug": "babel-node sandbox"
+  },
+  "babel": {
+    "presets": [
+      [
+        "babel-preset-edge",
+        {
+          "target": "node"
+        }
+      ]
+    ],
+    "plugins": [
+      "@babel/plugin-proposal-export-default-from",
+      [
+        "@babel/plugin-transform-react-jsx",
+        {
+          "pragma": "context.vivien.create",
+          "pragmaFrag": "Block",
+          "throwIfNamespace": false
+        }
+      ]
+    ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0-beta.51",
+    "@babel/node": "^7.0.0-beta.51",
+    "@babel/plugin-proposal-export-default-from": "^7.0.0-beta.51",
+    "babel-preset-edge": "^4.5.1",
+    "koa": "^2.5.1",
+    "nodemon": "^1.17.5"
+  },
+  "dependencies": {
+    "@koa/cors": "2",
+    "circular": "^1.0.5",
+    "fclone": "^1.0.11",
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0",
+    "nanoid": "^1.0.4",
+    "prettyjson": "^1.2.1"
+  }
+}
