@@ -24,6 +24,8 @@ const App = (props, context, next) => {
 Vivien.listen(App, 5099)
 ```
 
+And here is an example of what you might find in `./Middleware`:
+
 ```js
 import BodyParser from './Body'
 import Cors from './Cors'
@@ -36,3 +38,19 @@ export const Middleware = (props, context, next) => {
   )
 }
 ```
+
+## Development
+
+In the case that you'd like to see proof that I build such a misfit of a tool and that it works, you'll wanna do something like this:
+
+```sh
+# clone the project
+git@github.com:colshacol/vivien.git && cd vivien
+
+# install devDependencies (no production dependencies!)
+yarn
+
+# start that shit up
+yarn develop
+```
+
