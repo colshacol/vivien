@@ -35,16 +35,7 @@
     "@babel/node": "^7.0.0-beta.51",
     "@babel/plugin-proposal-export-default-from": "^7.0.0-beta.51",
     "babel-preset-edge": "^4.5.1",
-    "koa": "^2.5.1",
     "nodemon": "^1.17.5"
   },
-  "dependencies": {
-    "@koa/cors": "2",
-    "circular": "^1.0.5",
-    "fclone": "^1.0.11",
-    "koa-bodyparser": "^4.2.1",
-    "koa-router": "^7.4.0",
-    "nanoid": "^1.0.4",
-    "prettyjson": "^1.2.1"
-  }
+  "dependencies": {}
 }

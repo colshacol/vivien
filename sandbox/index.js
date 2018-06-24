@@ -1,14 +1,21 @@
-import prettyjson from 'prettyjson'
-import circular from 'circular'
+import { Vivien } from '../src'
+import Middleware from './Middleware'
+import BodyParser from './BodyParser'
+import Router from './Router'
+import Cors from './Cors'
+import Route from './Route'
 
-global.jsonLog = (json, options = {}) => {
-  console.log(prettyjson.render(
-    JSON.parse(JSON.stringify(json, circular())),
-    options
-  ))
+import { VersionOneRoute, VersionZeroRoute } from './routes'
+
+const App = (props, context, next) => {
+  return (
+    <Middleware>
+      <Router>
+        <Route path="/api/v0" component={VersionZeroRoute} />
+        <Route path="/api/v1" component={VersionOneRoute} />
+      </Router>
+    </Middleware>
+  )
 }
 
-require('./app')
-
-// console.log('App getting ready.')
-
+Vivien.listen(App, 5099)

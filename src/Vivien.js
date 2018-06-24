@@ -1,4 +1,3 @@
-import nanoid from 'nanoid'
 import VivienServer from './VivienServer'
 
 export default class Vivien {
@@ -18,18 +17,18 @@ export default class Vivien {
   }
 
   render = (component) => {
-    if (!component) return null;
+    if (!component) return null
 
     if (Array.isArray(component)) {
       return component.forEach(this.render)
     }
 
     if (typeof component.self === 'function') {
-      this.render(component.self(component.props, component.context, component.next))
+      this.render(
+        component.self(component.props, component.context, component.next)
+      )
     }
   }
 
   static listen = (...args) => VivienServer(...args)
 }
-
-
