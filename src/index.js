@@ -1,2 +1,4 @@
-export Vivien from './Vivien'
-export VivienServer from './VivienServer'
+import Vivien from './Vivien'
+import VivienServer from './VivienServer'
+
+export { Vivien, VivienServer }

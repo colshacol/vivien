@@ -1,6 +1,3 @@
-const BodyParser = (props, context, next) => {
-  console.log('BodyParser--', next)
+export const BodyParser = (props, context, next) => {
   return next
 }
-
-export default BodyParser

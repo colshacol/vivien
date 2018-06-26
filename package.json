@@ -37,5 +37,8 @@
     "babel-preset-edge": "^4.5.1",
     "nodemon": "^1.17.5"
   },
-  "dependencies": {}
+  "dependencies": {
+    "signale": "^1.2.1",
+    "warning": "^4.0.1"
+  }
 }
