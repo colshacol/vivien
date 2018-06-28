@@ -1,5 +1,6 @@
-export const Cors = (props, context, next) => {
-  return next
+export const Cors = async (props, context, next) => {
+  console.log('CORS')
+  return await next
 }
 
 // /**

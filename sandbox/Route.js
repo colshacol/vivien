@@ -1,8 +1,12 @@
-export const Route = (props, context, next) => {
-  if (!methodMatches(props, context)) return null
-  if (!context.vivien.matchPath(props.path)) return null
-
-  return props.component(props, context, next)
+export const Route = async (props, context, next) => {
+  console.log('Route', { props })
+  return (
+    <If condition={methodMatches(props, context)}>
+      <If condition={context.vivien.matchPath(props.path)}>
+        {props.component(props, context, next)}
+      </If>
+    </If>
+  )
 }
 
 const methodMatches = (props, context) => {

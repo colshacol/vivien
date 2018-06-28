@@ -14,11 +14,14 @@
       [
         "babel-preset-edge",
         {
-          "target": "node"
+          "target": "node",
+          "modules": "cjs"
         }
       ]
     ],
     "plugins": [
+      "babel-plugin-jsx-control-statements",
+      "@babel/plugin-proposal-pipeline-operator",
       "@babel/plugin-proposal-export-default-from",
       [
         "@babel/plugin-transform-react-jsx",
@@ -34,10 +37,14 @@
     "@babel/core": "^7.0.0-beta.51",
     "@babel/node": "^7.0.0-beta.51",
     "@babel/plugin-proposal-export-default-from": "^7.0.0-beta.51",
+    "@babel/plugin-proposal-pipeline-operator": "^7.0.0-beta.51",
+    "babel-plugin-jsx-control-statements": "^3.2.8",
     "babel-preset-edge": "^4.5.1",
     "nodemon": "^1.17.5"
   },
   "dependencies": {
+    "body": "^5.1.0",
+    "console.table": "^0.10.0",
     "signale": "^1.2.1",
     "warning": "^4.0.1"
   }

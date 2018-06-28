@@ -1,27 +1,27 @@
-import { Vivien } from 'vivien'
+import Vivien from '../src/Vivien'
 
-import { Middleware } from './Middleware'
+import { Cors } from './Cors'
 import { Router } from './Router'
 import { Route } from './Route'
 
 import { V0Logout, V0Login, V1Login, V1Logout } from './routes'
 
-const App = (props, context, next) => {
+const App = async (props, context) => {
   return (
-    <Middleware>
-      <Router prefix="/api/v0">
-        <Router prefix="/auth">
+    <Cors>
+      <Router name="v0" prefix="/api/v0">
+        <Router name="v0-auth" prefix="/auth">
           <Route post path="/login" component={V0Login} />
           <Route get path="/logout" component={V0Logout} />
         </Router>
       </Router>
-      <Router prefix="/api/v0">
-        <Router prefix="/auth">
-          <Route post path="/login" component={V1Login} />
+      <Router name="v1" prefix="/api/v1">
+        <Router name="v1-auth" prefix="/auth">
+          <Route get path="/login" component={V1Login} />
           <Route get path="/logout" component={V1Logout} />
         </Router>
       </Router>
-    </Middleware>
+    </Cors>
   )
 }
 
