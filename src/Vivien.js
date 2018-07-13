@@ -13,6 +13,7 @@ export default class Vivien {
     context.unmatchedPath = ''
     context.path = context.request.url
     context.unmatchedPath = context.path
+
     context.send = (...args) => {
       this.done = true
       context.response.send(...args)
@@ -22,6 +23,7 @@ export default class Vivien {
       this.done = true
       context.response.end(...args)
     }
+    
     this.context = context
 
     this.render(<Component />)
@@ -41,12 +43,10 @@ export default class Vivien {
   history = []
 
   handleFunction = async (component) => {
-    console.log(`handleFunction`, component)
     return this.render(await component(this.context))
   }
 
   handleObject = async (component) => {
-    console.log(`handleObject`, component)
     await component
     return this.render(
       await component.self(component.props, component.context, component.next)
@@ -54,7 +54,6 @@ export default class Vivien {
   }
 
   handleArray = async (components) => {
-    console.log(`handleArray`, components)
     for (const comp of components) {
       if (typeof comp === 'object') {
         await this.render(comp)
@@ -63,16 +62,13 @@ export default class Vivien {
   }
 
   render = (component) => {
-    console.log('rendering:', component)
     if (this.done || !component) {
-      console.log(`end`, component)
       return null
     }
 
     this.history.push(component)
 
     if (typeof component === 'function') {
-      console.log('function')
       return this.handleFunction(component)
     }
     if (Array.isArray(component)) return this.handleArray(component)

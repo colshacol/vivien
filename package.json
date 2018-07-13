@@ -1,6 +1,6 @@
 {
   "name": "vivien",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "",
   "keywords": [],
   "main": "dist/index.js",
@@ -15,13 +15,21 @@
         "babel-preset-edge",
         {
           "target": "node",
-          "modules": "cjs"
+          "modules": "cjs",
+          "pipelineOperator": {
+            "proposal": "minimal"
+          }
         }
       ]
     ],
     "plugins": [
       "babel-plugin-jsx-control-statements",
-      "@babel/plugin-proposal-pipeline-operator",
+      [
+        "@babel/plugin-proposal-pipeline-operator",
+        {
+          "proposal": "minimal"
+        }
+      ],
       "@babel/plugin-proposal-export-default-from",
       [
         "@babel/plugin-transform-react-jsx",
@@ -34,18 +42,18 @@
     ]
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0-beta.51",
-    "@babel/node": "^7.0.0-beta.51",
-    "@babel/plugin-proposal-export-default-from": "^7.0.0-beta.51",
-    "@babel/plugin-proposal-pipeline-operator": "^7.0.0-beta.51",
-    "babel-plugin-jsx-control-statements": "^3.2.8",
-    "babel-preset-edge": "^4.5.1",
-    "nodemon": "^1.17.5"
+    "@babel/core": "7.0.0-beta.51",
+    "@babel/node": "7.0.0-beta.51",
+    "@babel/plugin-proposal-export-default-from": "7.0.0-beta.51",
+    "@babel/plugin-proposal-pipeline-operator": "7.0.0-beta.51",
+    "babel-plugin-jsx-control-statements": "3.2.8",
+    "babel-preset-edge": "4.5.1",
+    "nodemon": "1.17.5"
   },
   "dependencies": {
-    "body": "^5.1.0",
-    "console.table": "^0.10.0",
-    "signale": "^1.2.1",
-    "warning": "^4.0.1"
+    "body": "5.1.0",
+    "console.table": "0.10.0",
+    "signale": "1.2.1",
+    "warning": "4.0.1"
   }
 }
