@@ -1,6 +1,10 @@
 import Server from './VivienServer'
 import { Signale } from 'signale'
 
+import { renderFunction } from './renderers'
+import { renderObject } from './renderers'
+import { renderArray } from './renderers'
+
 const logger = new Signale({
   scope: 'vivian'
 })
@@ -13,6 +17,10 @@ export default class Vivien {
     context.unmatchedPath = ''
     context.path = context.request.url
     context.unmatchedPath = context.path
+    
+    awaiting = false
+    done = false
+    history = []
 
     context.send = (...args) => {
       this.done = true
@@ -23,7 +31,7 @@ export default class Vivien {
       this.done = true
       context.response.end(...args)
     }
-    
+
     this.context = context
 
     this.render(<Component />)
@@ -38,30 +46,9 @@ export default class Vivien {
     }
   }
 
-  awaiting = false
-  done = false
-  history = []
-
-  handleFunction = async (component) => {
-    return this.render(await component(this.context))
-  }
-
-  handleObject = async (component) => {
-    await component
-    return this.render(
-      await component.self(component.props, component.context, component.next)
-    )
-  }
-
-  handleArray = async (components) => {
-    for (const comp of components) {
-      if (typeof comp === 'object') {
-        await this.render(comp)
-      }
-    }
-  }
-
   render = (component) => {
+    const self = this
+
     if (this.done || !component) {
       return null
     }
@@ -69,10 +56,11 @@ export default class Vivien {
     this.history.push(component)
 
     if (typeof component === 'function') {
-      return this.handleFunction(component)
+      return renderFunction(self, component)
     }
-    if (Array.isArray(component)) return this.handleArray(component)
-    if (typeof component === 'object') return this.handleObject(component)
+
+    if (Array.isArray(component)) return renderArray(self, component)
+    if (typeof component === 'object') return renderObject(self, component)
   }
 
   matchPath = (path) => {
