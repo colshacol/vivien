@@ -7,13 +7,10 @@ const listen = (server) => (port) => {
   )
 }
 
-export default (component, port, options) => {
+export default (Component, options) => {
   const server = http.createServer((request, response) => {
-    new Vivien(component, {
-      request,
-      response
-    })
+    const vivien = new Vivien(request, response, Component)
   })
 
-  port |> (server |> listen)
+  return listen(server)(options.port)
 }

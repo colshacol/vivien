@@ -1,106 +1,58 @@
+// import finalhandler from 'finalhandler'
 import Server from './VivienServer'
-import { Signale } from 'signale'
+import kindOf from 'kind-of'
 
-import { renderFunction } from './renderers'
-import { renderObject } from './renderers'
-import { renderArray } from './renderers'
+import renderers from './renderers'
 
-const logger = new Signale({
-  scope: 'vivian'
-})
+const DEFAULT_ROUTER = {
+  matched: ''
+}
 
-export default class Vivien {
-  constructor(Component, context) {
-    this.loggers.begin(context)
-    context.vivien = this
-    context.matchedPath = ''
-    context.unmatchedPath = ''
-    context.path = context.request.url
-    context.unmatchedPath = context.path
-    
-    awaiting = false
-    done = false
-    history = []
+class Context {
+  method: string
+  url: string
 
-    context.send = (...args) => {
-      this.done = true
-      context.response.send(...args)
-    }
+  constructor(request, response, vivien) {
+    this.vivien = () => vivien
+    this.router = DEFAULT_ROUTER
+    this.request = request
+    this.response = response
+    this.method = request.method
+    this.url = request.url
+  }
 
-    context.end = (...args) => {
-      this.done = true
-      context.response.end(...args)
-    }
+  header = (key, value) => {
+    return value
+      ? this.response.setHeader(key, value)
+      : this.response.getHeader(key)
+  }
 
-    this.context = context
+  send = (data) => {
+    return this.response.end(data)
+  }
 
-    this.render(<Component />)
+  render = async (component) => {
+    const type = kindOf(component)
+    const renderer = renderers[type]
+    return renderer ? await renderer(this, component) : null
   }
 
   create = (self, props = {}, ...next) => {
     return {
-      context: this.context,
+      context: this,
       self,
       props,
       next
     }
   }
-
-  render = (component) => {
-    const self = this
-
-    if (this.done || !component) {
-      return null
-    }
-
-    this.history.push(component)
-
-    if (typeof component === 'function') {
-      return renderFunction(self, component)
-    }
-
-    if (Array.isArray(component)) return renderArray(self, component)
-    if (typeof component === 'object') return renderObject(self, component)
-  }
-
-  matchPath = (path) => {
-    if (this.context.unmatchedPath.startsWith(path)) {
-      this.loggers.matchedPath(path)
-
-      this.context.matchedPath = `${this.context.matchedPath}${path}`
-      this.context.unmatchedPath = this.context.unmatchedPath.substr(
-        path.length
-      )
-
-      this.loggers.newMatchedPath(path)
-      this.loggers.newUnmatchedPath(path)
-      return true
-    }
-
-    return false
-  }
-
-  static listen = (...args) => Server(...args)
-  loggers = loggers(this)
 }
 
-const loggers = (self) => {
-  return {
-    begin(context) {
-      logger.start(
-        `Starting request handler: ${context.request.method.toUpperCase()} -> ${
-          context.request.url
-        }`
-      )
-    },
-    matchedPath(path) {
-      logger.info(`Matched path: "${path}" in "${self.context.unmatchedPath}"`)
-    },
-    newMatchedPath() {
-      logger.info(`New matched path: "${self.context.matchedPath}"`)
-    },
-    newUnmatchedPath() {
-      logger.info(`New unmatched path: "${self.context.unmatchedPath}"\n`)
-    }
+export default class Vivien {
+  static start = Server
+
+  constructor(request, response, Component) {
+    const context = new Context(request, response, this)
+    this.context = context
+    context.render(<Component />)
   }
 }

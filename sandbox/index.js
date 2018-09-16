@@ -1,28 +1,21 @@
 import Vivien from '../src/Vivien'
-
-import { Cors } from './Cors'
-import { Router } from './Router'
-import { Route } from './Route'
-
-import { V0Logout, V0Login, V1Login, V1Logout } from './routes'
+import Cors from '../src/components/Cors'
+import Route from '../src/components/Route'
+import SendFooBar from './SendFooBar'
 
 const App = async (props, context) => {
   return (
-    <Cors>
-      <Router name="v0" prefix="/api/v0">
-        <Router name="v0-auth" prefix="/auth">
-          <Route post path="/login" component={V0Login} />
-          <Route get path="/logout" component={V0Logout} />
-        </Router>
-      </Router>
-      <Router name="v1" prefix="/api/v1">
-        <Router name="v1-auth" prefix="/auth">
-          <Route get path="/login" component={V1Login} />
-          <Route get path="/logout" component={V1Logout} />
-        </Router>
-      </Router>
-    </Cors>
+    <Route match="/foo">
+      <Route match="/bar">
+        <Route method="get">
+          <SendFooBar />
+        </Route>
+      </Route>
+    </Route>
   )
 }
 
-Vivien.listen(App, 5099)
+Vivien.start(App, {
+  port: 5099,
+  debug: true
+})
