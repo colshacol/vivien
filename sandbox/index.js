@@ -1,7 +1,9 @@
 import Vivien from '../src/Vivien'
 import Cors from '../src/components/Cors'
 import Route from '../src/components/Route'
+
 import SendFooBar from './SendFooBar'
+import SendFooBaz from './SendFooBaz'
 
 const App = async (props, context) => {
   return (
@@ -9,6 +11,11 @@ const App = async (props, context) => {
       <Route match="/bar">
         <Route method="get">
           <SendFooBar />
+        </Route>
+      </Route>
+      <Route match="/baz">
+        <Route method="get">
+          <SendFooBaz />
         </Route>
       </Route>
     </Route>
